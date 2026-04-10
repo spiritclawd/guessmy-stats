@@ -1307,10 +1307,10 @@ async function fetchData() {
 
   try {
     const [gamesData, completedData, collectionsData, guessData, turnsData] = await Promise.all([
-      gql(`{ guessmynftGameModels(first: 300) { edges { node { game_id player1 player2 phase turn_count winner created_at last_action_at game_mode collection_id } } } }`),
-      gql(`{ guessmynftGameCompletedModels(first: 300) { edges { node { game_id winner } } } }`),
+      gql(`{ guessmynftGameModels(first: 100) { edges { node { game_id player1 player2 phase turn_count winner created_at last_action_at game_mode collection_id } } } }`),
+      gql(`{ guessmynftGameCompletedModels(first: 100) { edges { node { game_id winner } } } }`),
       gql(`{ guessmynftCollectionModels { edges { node { collection_id name character_count question_count is_whitelisted created_at } } } }`),
-      gql(`{ guessmynftGuessResultModels(first: 300) { edges { node { game_id guessed_by is_correct } } } }`),
+      gql(`{ guessmynftGuessResultModels(first: 100) { edges { node { game_id guessed_by is_correct } } } }`),
       gql(`{ guessmynftTurnModels(first: 500) { edges { node { game_id turn_number action_type proof_verified } } } }`),
     ]);
 
