@@ -464,6 +464,58 @@
       margin-left: auto;
     }
 
+    /* ─── LEADERBOARD ─── */
+    .leaderboard-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-sub);
+      border-radius: 6px;
+      margin-bottom: 6px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    
+    .leaderboard-item:hover {
+      background: rgba(255,255,255,0.03);
+      border-color: rgba(255,255,255,0.08);
+    }
+    
+    .leaderboard-rank {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      width: 20px;
+    }
+    
+    .leaderboard-rank.gold { color: #fbbf24; }
+    .leaderboard-rank.silver { color: #a8a29e; }
+    .leaderboard-rank.bronze { color: #fb923c; }
+    
+    .leaderboard-address {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      flex: 1;
+    }
+    
+    .leaderboard-stats {
+      display: flex;
+      gap: 12px;
+      font-size: 0.7rem;
+    }
+    
+    .leaderboard-wins {
+      color: var(--green);
+      font-weight: 600;
+    }
+    
+    .leaderboard-games {
+      color: var(--text-muted);
+    }
+
     /* ─── EMPTY STATE ─── */
     .empty-state {
       padding: 28px;
@@ -914,8 +966,17 @@
           </div>
         </div>
 
-        <!-- RIGHT: COLLECTIONS + ZK ACTIVITY -->
+        <!-- RIGHT: LEADERBOARD + COLLECTIONS + ZK ACTIVITY -->
         <div class="col-right">
+
+          <!-- LEADERBOARD -->
+          <div class="section-hdr">
+            <h2>Leaderboard</h2>
+            <span class="count-badge" id="leaderboardCount">Top 10</span>
+          </div>
+          <div id="leaderboardContainer" style="margin-bottom: 24px;">
+            <div class="empty-state">Loading...</div>
+          </div>
 
           <div class="section-hdr">
             <h2>Collections</h2>
@@ -1123,7 +1184,7 @@
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────
-const TORII_URL = 'https://torii-mainnet.aircade.xyz/graphql';
+const TORII_URL = 'https://api.cartridge.gg/x/guessnft-zk/torii/graphql';
 const REFRESH_INTERVAL = 30000;
 
 // ─── GLOBAL DATA STORE ────────────────────────────────────
@@ -1292,6 +1353,9 @@ function renderDashboard(games, completed, collections, guesses, turns) {
   // Games table
   renderGames(games);
 
+  // Leaderboard
+  renderLeaderboard(games);
+
   // Collections
   renderCollections(collections);
 
@@ -1345,6 +1409,63 @@ function renderGames(games) {
 
   const rows = sorted.slice(0, 20).map(gameRowHTML).join('');
   table.innerHTML = header + rows;
+}
+
+function renderLeaderboard(games) {
+  const container = document.getElementById('leaderboardContainer');
+  
+  // Calculate player statistics
+  const playerStats = {};
+  
+  games.forEach(g => {
+    const p1 = g.player1;
+    const p2 = g.player2;
+    const winner = g.winner;
+    
+    // Initialize players
+    if (p1 && p1 !== '0x0') {
+      if (!playerStats[p1]) playerStats[p1] = { wins: 0, games: 0, address: p1 };
+      playerStats[p1].games++;
+    }
+    if (p2 && p2 !== '0x0') {
+      if (!playerStats[p2]) playerStats[p2] = { wins: 0, games: 0, address: p2 };
+      playerStats[p2].games++;
+    }
+    
+    // Count wins
+    if (winner && winner !== '0x0' && playerStats[winner]) {
+      playerStats[winner].wins++;
+    }
+  });
+  
+  // Sort by wins, then by games played
+  const sorted = Object.values(playerStats).sort((a, b) => {
+    if (b.wins !== a.wins) return b.wins - a.wins;
+    return b.games - a.games;
+  });
+  
+  if (sorted.length === 0) {
+    container.innerHTML = '<div class="empty-state">No players yet</div>';
+    return;
+  }
+  
+  // Render top 10
+  const top10 = sorted.slice(0, 10);
+  container.innerHTML = top10.map((player, index) => {
+    const rank = index + 1;
+    const rankClass = rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : '';
+    const winRate = player.games > 0 ? Math.round((player.wins / player.games) * 100) : 0;
+    
+    return `<div class="leaderboard-item">
+      <span class="leaderboard-rank ${rankClass}">#${rank}</span>
+      <span class="leaderboard-address">${shortAddr(player.address)}</span>
+      <div class="leaderboard-stats">
+        <span class="leaderboard-wins">${player.wins} wins</span>
+        <span class="leaderboard-games">${player.games} games</span>
+        <span class="leaderboard-games">${winRate}% WR</span>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function renderCollections(collections) {
