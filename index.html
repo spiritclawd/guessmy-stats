@@ -1625,30 +1625,50 @@ function renderCollections(collections) {
 function renderZkActivity(turns) {
   const container = document.getElementById('zkContainer');
 
-  const totalVerified = (turns || []).filter(t => t.proof_verified === true || t.proof_verified === 'true').length;
   const totalTurns    = (turns || []).length;
+  const verified      = (turns || []).filter(t => t.proof_verified === true || t.proof_verified === 'true');
+  const totalVerified = verified.length;
   const successRate   = totalTurns > 0 ? ((totalVerified / totalTurns) * 100).toFixed(1) : '0.0';
 
-  // Avg latency: derive from games' last_action_at - created_at (rough)
-  const now = Math.floor(Date.now() / 1000);
-  // We'll compute a simple estimate if we had game timestamps per turn;
-  // skip for now — just show success rate
+  // Build sparkline data: bucketed by turn_number (last 50 verified turns, smoothed 5-bucket)
+  const sortedVerified = verified.slice(-50).sort((a, b) => hexToNum(a.turn_number) - hexToNum(b.turn_number));
+  const bucketSize = Math.max(1, Math.ceil(sortedVerified.length / 10));
+  const buckets = [];
+  for (let i = 0; i < sortedVerified.length; i += bucketSize) {
+    buckets.push(sortedVerified.slice(i, i + bucketSize).length);
+  }
+
+  // Normalize to height 40px
+  const maxH = Math.max(...buckets, 1);
+  const points = buckets.map((count, idx) => {
+    const x = (idx / (buckets.length - 1 || 1)) * 100;
+    const y = 40 - (count / maxH) * 40;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+
+  const sparklineSvg = buckets.length > 1 ? `
+    <svg width="100%" height="40" viewBox="0 0 100 40" preserveAspectRatio="none" style="margin-top:8px; opacity:0.8;">
+      <polyline
+        fill="none"
+        stroke="var(--accent)"
+        stroke-width="1.5"
+        stroke-linejoin="round"
+        points="${points}"
+      />
+    </svg>
+  ` : '';
 
   container.innerHTML = `
     <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
       <span class="health-score" style="margin:0;">✓ ${successRate}% proof success rate</span>
       <span class="count-badge">${totalVerified} / ${totalTurns} turns</span>
     </div>
+    ${sparklineSvg}
     <div style="max-height:200px; overflow-y:auto;">
   ` + (function(){
-    const verified = (turns || [])
-      .filter(t => t.proof_verified === true || t.proof_verified === 'true')
-      .slice(-10)
-      .reverse();
-
-    if (verified.length === 0) return '<div class="empty-state">No ZK proofs verified yet</div>';
-
-    return verified.map(t => `
+    const displayVerified = sortedVerified.slice(-10).reverse();
+    if (displayVerified.length === 0) return '<div class="empty-state">No ZK proofs verified yet</div>';
+    return displayVerified.map(t => `
       <div class="zk-item">
         <span class="zk-check">✓ Proof verified</span>
         <span class="zk-turn">Turn ${hexToNum(t.turn_number)}</span>
