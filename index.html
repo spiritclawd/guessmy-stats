@@ -1403,13 +1403,15 @@ function gameRowHTML(g) {
   const modeCls    = mode === 2 ? 'pill-indigo' : 'pill-neutral';
   const turns      = hexToNum(g.turn_count);
   const hasWinner  = g.winner && g.winner !== '0x0';
-  const ts         = g.created_at ? formatDate(hexToNum(g.created_at)) : '—';
+  const tsRaw      = hexToNum(g.created_at);
+  const tsFormatted = tsRaw ? formatDate(tsRaw) : '—';
+  const tsTitle    = tsRaw ? new Date(tsRaw * 1000).toLocaleString() : '';
   return `<div class="game-row">
     <span class="game-id-cell">${shortHex6(g.game_id)}</span>
     <span class="pill ${modeCls}">${modeLabel}</span>
     <span class="pill ${phaseInfo.cls}">${phaseInfo.label}</span>
     <span class="turns-cell">${turns || '—'}</span>
-    <span class="turns-cell">${ts}</span>
+    <span class="turns-cell" title="${tsTitle}">${tsFormatted}</span>
     <span class="winner-cell ${hasWinner ? '' : 'empty'}">${hasWinner ? shortAddr(g.winner) : '—'}</span>
   </div>`;
 }
@@ -1831,6 +1833,7 @@ document.addEventListener('keydown', function(e) {
 });
 
 // ─── INIT ────────────────────────────────────────────────
+setGameModeFilter('all');  // initial button state
 fetchData();
 setInterval(fetchData, REFRESH_INTERVAL);
 </script>
