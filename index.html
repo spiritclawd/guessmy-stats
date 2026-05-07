@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>guessMyNFT — Live Stats</title>
+  <title>guessMyNFT — Solo Tournament Stats</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Luckiest+Guy&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg-page:   #08090a;
@@ -65,9 +65,11 @@
     }
 
     .logo-mark {
-      font-size: 1.15rem;
-      color: var(--text-muted);
+      font-size: 1.4rem;
+      font-family: 'Luckiest Guy', 'Arial Rounded MT Bold', 'Helvetica Rounded', 'Nunito', sans-serif;
+      color: #7170ff;
       line-height: 1;
+      font-weight: 400;
     }
 
     .logo-name {
@@ -75,6 +77,7 @@
       font-weight: 500;
       color: var(--text-primary);
       font-feature-settings: "cv01", "ss03";
+      font-family: 'Luckiest Guy', 'Arial Rounded MT Bold', 'Helvetica Rounded', 'Nunito', sans-serif;
     }
 
     .header-right {
@@ -126,7 +129,200 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ─── MAIN CONTAINER ─── */
+    /* ─── AUTH PROMPT ─── */
+.auth-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 16px;
+  padding: 48px 24px;
+}
+.auth-prompt-icon { opacity: 0.8; }
+.auth-prompt-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.auth-prompt-sub {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 380px;
+  line-height: 1.5;
+}
+.auth-prompt-btn {
+  padding: 10px 28px;
+  background: var(--violet);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.15s, transform 0.1s;
+}
+.auth-prompt-btn:hover { background: #5b5ae0; transform: translateY(-1px); }
+.auth-prompt-btn:active { transform: translateY(0); }
+.auth-prompt-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* ─── MY STATS ─── */
+.my-stats-content { padding: 0 0 40px; }
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border-sub);
+  margin-bottom: 24px;
+}
+.profile-avatar { flex-shrink: 0; }
+.profile-info { flex: 1; }
+.profile-address {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.profile-meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 2px;
+}
+.btn-disconnect {
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: color 0.15s, border-color 0.15s;
+}
+.btn-disconnect:hover { color: #f87171; border-color: rgba(248,113,113,0.3); }
+
+.my-stats-cards {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.my-stats-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-sub);
+  border-radius: 8px;
+  padding: 16px 12px;
+  text-align: center;
+}
+.my-stats-card-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+.my-stats-card-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-subtle);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+.my-stats-section {
+  margin-bottom: 28px;
+}
+.my-stats-section-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-sub);
+}
+
+.my-runs-table .game-row {
+  display: grid;
+  grid-template-columns: 100px 100px 80px 70px 90px 1fr;
+  padding: 8px 0;
+  font-size: 0.82rem;
+  border-bottom: 1px solid var(--border-sub);
+  align-items: center;
+}
+.my-runs-table .game-row-header {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-subtle);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+
+.efficiency-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.efficiency-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-sub);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+.efficiency-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-subtle);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.efficiency-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.tournament-status-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-sub);
+  border-radius: 8px;
+  padding: 20px;
+}
+.ts-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-sub);
+}
+.ts-row:last-child { border-bottom: none; }
+.ts-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.ts-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+  .my-stats-cards { grid-template-columns: repeat(3, 1fr); }
+  .my-runs-table .game-row { grid-template-columns: 80px 80px 60px 60px 80px 1fr; font-size: 0.75rem; }
+  .efficiency-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── MAIN CONTAINER ─── */
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -361,6 +557,12 @@
       background: rgba(94,106,210,0.15);
       border: 1px solid rgba(94,106,210,0.3);
       color: var(--accent);
+    }
+
+    .pill-green {
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.25);
+      color: var(--green);
     }
 
     .pill-phase-lobby    { background: rgba(255,255,255,0.04); color: var(--text-subtle); }
@@ -684,6 +886,273 @@
       font-style: italic;
     }
 
+    /* ─── TOURNAMENT ─── */
+    .tournament-banner {
+      background: linear-gradient(135deg, rgba(94,106,210,0.12) 0%, rgba(113,112,255,0.06) 100%);
+      border: 1px solid rgba(94,106,210,0.25);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tournament-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(94,106,210,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .tournament-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tournament-live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: livePulse 2s ease-in-out infinite;
+    }
+
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .tournament-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .tournament-sub {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .tournament-countdown {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: 0.04em;
+    }
+
+    .tournament-countdown span {
+      color: var(--text-subtle);
+      font-size: 0.75rem;
+      margin-left: 2px;
+      margin-right: 10px;
+    }
+
+    .tournament-prizes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .tournament-prize-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-sub);
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .tournament-prize-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+      margin-bottom: 10px;
+    }
+
+    .tournament-prize-amount {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .tournament-prize-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .tournament-prize-breakdown {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-sub);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .tournament-boards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .tournament-board {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-sub);
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .tournament-board-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .tournament-board-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .tournament-board-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(94,106,210,0.12);
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    .tournament-board-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      padding: 12px;
+      background: var(--bg-card);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .tournament-stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .tournament-stat {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-sub);
+      border-radius: 10px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .tournament-stat-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .tournament-stat-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-subtle);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .tournament-leaderboard-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-sub);
+    }
+
+    .tournament-leaderboard-item:last-child {
+      border-bottom: none;
+    }
+
+    .tournament-rank {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 500;
+      width: 28px;
+      text-align: center;
+      color: var(--text-subtle);
+    }
+
+    .tournament-rank.gold { color: #fbbf24; }
+    .tournament-rank.silver { color: #c0c0c0; }
+    .tournament-rank.bronze { color: #cd7f32; }
+
+    .tournament-player {
+      flex: 1;
+      font-size: 0.85rem;
+      color: var(--text-primary);
+    }
+
+    .tournament-player-note {
+      font-size: 0.75rem;
+      color: var(--text-subtle);
+    }
+
+    .tournament-score {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--green);
+      text-align: right;
+    }
+
+    .tournament-score.negative { color: var(--green); }
+    .tournament-score.even { color: var(--text-muted); }
+    .tournament-score.positive { color: #f87171; }
+
+    .tournament-qualify-banner {
+      background: rgba(251,191,36,0.08);
+      border: 1px solid rgba(251,191,36,0.2);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .tournament-prizes,
+      .tournament-boards,
+      .tournament-stat-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* ─── FULLSCREEN EXPAND MODAL ─── */
     .modal-fullscreen {
       background: #08090a;
@@ -898,7 +1367,7 @@
 <header>
   <div class="header-inner">
     <div class="logo-area">
-      <span class="logo-mark">♞</span>
+      <span class="logo-mark">?</span>
       <span class="logo-name">guessMyNFT</span>
     </div>
     <div class="header-right">
@@ -935,8 +1404,77 @@
 
     <!-- TABS NAV -->
     <div class="tabs-bar">
-      <button class="tab-btn tab-active" id="tabStats" onclick="switchTab('stats')">Stats</button>
+      <button class="tab-btn tab-active" id="tabTournament" onclick="switchTab('tournament')">Tournament</button>
+      <button class="tab-btn" id="tabStats" onclick="switchTab('stats')">Stats</button>
+      <button class="tab-btn" id="tabMyStats" onclick="switchTab('myStats')">My Stats</button>
       <button class="tab-btn" id="tabTreasury" onclick="switchTab('treasury')">Treasury</button>
+    </div>
+
+    <!-- TAB: TOURNAMENT -->
+    <div class="tab-panel tab-visible" id="panelTournament">
+      <div class="tournament-banner">
+        <div class="tournament-eyebrow"><span class="tournament-live-dot"></span> Live Now</div>
+        <div class="tournament-title">SchizoBoss Solo Inauguration Tournament</div>
+        <div class="tournament-sub">Pre-season inauguration of the eternal Solo leaderboard. 7 days. Best 3 runs count.</div>
+        <div class="tournament-countdown" id="tournamentCountdown">Calculating...</div>
+
+        <div class="tournament-prizes">
+          <div class="tournament-prize-card">
+            <div class="tournament-prize-label">Open Mode · Random</div>
+            <div class="tournament-prize-amount">2 NFTs</div>
+            <div class="tournament-prize-desc">Top 2 players win 1 Schizodio NFT each. No NFT required to play.</div>
+            <div class="tournament-prize-breakdown">1st: 1 Schizodio<br>2nd: 1 Schizodio</div>
+          </div>
+          <div class="tournament-prize-card">
+            <div class="tournament-prize-label">Owned Mode · Holders</div>
+            <div class="tournament-prize-amount">$100 USDC</div>
+            <div class="tournament-prize-desc">Top 5 Schizodio holders split the pool. Commit your NFT as strategic filter.</div>
+            <div class="tournament-prize-breakdown">1st: $30 · 2nd: $25 · 3rd: $20 · 4th: $15 · 5th: $10</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tournament-stat-row">
+        <div class="tournament-stat">
+          <div class="tournament-stat-num" id="tournamentGames">—</div>
+          <div class="tournament-stat-label">Solo Games</div>
+        </div>
+        <div class="tournament-stat">
+          <div class="tournament-stat-num" id="tournamentPlayers">—</div>
+          <div class="tournament-stat-label">Players</div>
+        </div>
+        <div class="tournament-stat">
+          <div class="tournament-stat-num" id="tournamentAvgScore">—</div>
+          <div class="tournament-stat-label">Avg Score</div>
+        </div>
+      </div>
+
+      <div class="tournament-qualify-banner">
+        <strong>Ranking rules:</strong> Your tournament rank is the sum of your best 3 par-relative scores across all completed Solo games. You must complete at least 5 Solo games to qualify. Tiebreaker: lower total questions used across all your games wins. Abandoned games don't count.
+      </div>
+
+      <div class="tournament-boards">
+        <div class="tournament-board">
+          <div class="tournament-board-hdr">
+            <div class="tournament-board-title">Open Mode Leaderboard</div>
+            <div class="tournament-board-badge">Random</div>
+          </div>
+          <div class="tournament-board-note">No NFT required. The boss is picked from the full Schizodio collection. Top 2 win NFTs.</div>
+          <div id="tournamentOpenBoard">
+            <div class="empty-state">Loading...</div>
+          </div>
+        </div>
+        <div class="tournament-board">
+          <div class="tournament-board-hdr">
+            <div class="tournament-board-title">Owned Mode Leaderboard</div>
+            <div class="tournament-board-badge">Holders</div>
+          </div>
+          <div class="tournament-board-note">Schizodio holders only. Commit an NFT as your strategic filter. The committed NFT cannot be the boss. Top 5 split $100 USDC.</div>
+          <div id="tournamentOwnedBoard">
+            <div class="empty-state">Loading...</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- TAB: STATS -->
@@ -956,9 +1494,10 @@
           </div>
           <!-- Mode filter chips -->
           <div style="display:flex; gap:6px; margin-bottom:8px;">
-            <button class="pill pill-neutral" id="filterAll"    onclick="setGameModeFilter('all')">All</button>
-            <button class="pill pill-neutral" id="filterSolo"   onclick="setGameModeFilter('solo')">Solo</button>
-            <button class="pill pill-neutral" id="filterZK"     onclick="setGameModeFilter('zk')">ZK</button>
+            <button class="pill pill-neutral" id="filterAll"      onclick="setGameModeFilter('all')">All</button>
+            <button class="pill pill-neutral" id="filterSoloOpen" onclick="setGameModeFilter('soloOpen')">Solo Open</button>
+            <button class="pill pill-neutral" id="filterSoloOwned" onclick="setGameModeFilter('soloOwned')">Solo Owned</button>
+            <button class="pill pill-neutral" id="filterZK"       onclick="setGameModeFilter('zk')">ZK</button>
           </div>
           <div style="overflow-x:auto;">
           <div class="games-table" id="gamesTable">
@@ -1069,6 +1608,59 @@
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- TAB: MY STATS -->
+    <div class="tab-panel" id="panelMyStats">
+      <div id="myStatsAuthPrompt" class="auth-prompt">
+        <div class="auth-prompt-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="rgba(113,112,255,0.15)"/><text x="24" y="30" text-anchor="middle" fill="#7170ff" font-size="22" font-family="Luckiest Guy, sans-serif">?</text></svg>
+        </div>
+        <div class="auth-prompt-title">Connect your Controller</div>
+        <div class="auth-prompt-sub">Log in with the same account you use on the game to see your personal stats, every run you've played, and your tournament position.</div>
+        <button class="auth-prompt-btn" id="myStatsConnectBtn" onclick="connectControllerForMyStats()">Connect Controller</button>
+      </div>
+      <div id="myStatsContent" class="my-stats-content" style="display:none;">
+        <div class="profile-header">
+          <div class="profile-avatar">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="20" fill="rgba(113,112,255,0.2)"/><text x="20" y="24" text-anchor="middle" fill="#7170ff" font-size="16" font-family="Luckiest Guy, sans-serif">?</text></svg>
+          </div>
+          <div class="profile-info">
+            <div class="profile-address" id="profileAddress">Connecting...</div>
+            <div class="profile-meta" id="profileMeta"></div>
+          </div>
+          <button class="btn-disconnect" onclick="disconnectControllerForMyStats()">Disconnect</button>
+        </div>
+        <div class="my-stats-cards">
+          <div class="my-stats-card"><div class="my-stats-card-num" id="myStatsTotalGames">0</div><div class="my-stats-card-label">Total Games</div></div>
+          <div class="my-stats-card"><div class="my-stats-card-num" id="myStatsWins">0</div><div class="my-stats-card-label">Wins</div></div>
+          <div class="my-stats-card"><div class="my-stats-card-num" id="myStatsWinRate">0%</div><div class="my-stats-card-label">Win Rate</div></div>
+          <div class="my-stats-card"><div class="my-stats-card-num" id="myStatsAvgQuestions">0</div><div class="my-stats-card-label">Avg Questions</div></div>
+          <div class="my-stats-card"><div class="my-stats-card-num" id="myStatsBestPar">—</div><div class="my-stats-card-label">Best Par</div></div>
+          <div class="my-stats-card"><div class="my-stats-card-num" id="myStatsCurrentRank">—</div><div class="my-stats-card-label">Tournament Rank</div></div>
+        </div>
+        <div class="my-stats-section">
+          <div class="my-stats-section-title">My Runs</div>
+          <div style="overflow-x:auto;">
+          <div id="myRunsTable" class="my-runs-table">
+            <div class="game-row game-row-header"><span>Game ID</span><span>Mode</span><span>Turns</span><span>Par</span><span>Result</span><span>Time</span></div>
+            <div class="empty-state">Connect to see your runs</div>
+          </div>
+          </div>
+        </div>
+        <div class="my-stats-section">
+          <div class="my-stats-section-title">Efficiency</div>
+          <div class="efficiency-grid">
+            <div class="efficiency-card"><div class="efficiency-label">Under Par Rate</div><div class="efficiency-value" id="effUnderPar">—</div></div>
+            <div class="efficiency-card"><div class="efficiency-label">Current Streak</div><div class="efficiency-value" id="effStreak">—</div></div>
+            <div class="efficiency-card"><div class="efficiency-label">Improvement Trend</div><div class="efficiency-value" id="effTrend">—</div></div>
+          </div>
+        </div>
+        <div class="my-stats-section">
+          <div class="my-stats-section-title">Tournament Status</div>
+          <div id="myTournamentStatus"></div>
+        </div>
       </div>
     </div>
 
@@ -1271,14 +1863,19 @@ const PHASE_INFO = {
   3: { label: 'Guess',    cls: 'pill-phase-guess' },
   4: { label: 'Complete', cls: 'pill-phase-complete' },
 };
-const MODE_NAMES = { 0: 'PvP', 1: 'Solo', 2: 'ZK' };
+const MODE_NAMES = { 0: 'PvP', 1: 'PvP Owned', 2: 'ZK', 3: 'Solo Open', 4: 'Solo Owned' };
 
 // ─── TABS ─────────────────────────────────────────────────
 function switchTab(tab) {
   document.getElementById('panelStats').classList.toggle('tab-visible', tab === 'stats');
   document.getElementById('panelTreasury').classList.toggle('tab-visible', tab === 'treasury');
+  document.getElementById('panelTournament').classList.toggle('tab-visible', tab === 'tournament');
+  document.getElementById('panelMyStats').classList.toggle('tab-visible', tab === 'myStats');
   document.getElementById('tabStats').classList.toggle('tab-active', tab === 'stats');
   document.getElementById('tabTreasury').classList.toggle('tab-active', tab === 'treasury');
+  document.getElementById('tabTournament').classList.toggle('tab-active', tab === 'tournament');
+  document.getElementById('tabMyStats').classList.toggle('tab-active', tab === 'myStats');
+  if (tab === 'myStats' && connectedAddress) renderMyStats();
 }
 
 // ─── GRAPHQL ─────────────────────────────────────────────
@@ -1307,6 +1904,146 @@ function animateCounter(el, target, duration = 800) {
     else el.textContent = target;
   }
   requestAnimationFrame(update);
+}
+
+// ─── CONTROLLER / MY STATS ─────────────────────────────────────
+let connectedAddress = null;
+let controllerInstance = null;
+
+async function connectControllerForMyStats() {
+  const btn = document.getElementById('myStatsConnectBtn');
+  btn.textContent = 'Connecting...';
+  btn.disabled = true;
+  try {
+    const { default: Controller } = await import('https://esm.sh/@cartridge/controller@latest');
+    controllerInstance = new Controller({});
+    const account = await controllerInstance.connect();
+    connectedAddress = account.address;
+    document.getElementById('myStatsAuthPrompt').style.display = 'none';
+    document.getElementById('myStatsContent').style.display = 'block';
+    try {
+      const username = await controllerInstance.username();
+      if (username) {
+        document.getElementById('profileAddress').textContent = username;
+        document.getElementById('profileMeta').textContent = shortAddr(connectedAddress);
+      } else {
+        document.getElementById('profileAddress').textContent = shortAddr(connectedAddress);
+      }
+    } catch(e) {
+      document.getElementById('profileAddress').textContent = shortAddr(connectedAddress);
+    }
+    renderMyStats();
+  } catch(e) {
+    console.error('Controller connect failed:', e);
+    btn.textContent = 'Connect Controller';
+    btn.disabled = false;
+    alert('Connection failed: ' + (e.message || 'Unknown error'));
+  }
+}
+
+function disconnectControllerForMyStats() {
+  connectedAddress = null;
+  controllerInstance = null;
+  document.getElementById('myStatsAuthPrompt').style.display = '';
+  document.getElementById('myStatsContent').style.display = 'none';
+}
+
+const PAR = 10; // Schizodio par
+
+function renderMyStats() {
+  if (!connectedAddress || !allGames.length) return;
+  const me = connectedAddress.toLowerCase();
+  const myGames = allGames.filter(g => {
+    const p1 = (g.player1 || '').toLowerCase();
+    const p2 = (g.player2 || '').toLowerCase();
+    return p1 === me || p2 === me;
+  });
+  const completed = myGames.filter(g => g.winner && g.winner !== '0x0');
+  const wins = completed.filter(g => g.winner.toLowerCase() === me);
+  const totalGames = completed.length;
+  const totalWins = wins.length;
+  const winRate = totalGames ? Math.round(totalWins / totalGames * 100) : 0;
+  const avgQ = totalWins ? (wins.reduce((s, g) => s + hexToNum(g.turn_count), 0) / totalWins).toFixed(1) : '\u2014';
+  const soloWins = wins.filter(g => { const m = hexToNum(g.game_mode); return m === 3 || m === 4; });
+  const bestRun = soloWins.length ? Math.min(...soloWins.map(g => hexToNum(g.turn_count) - PAR)) : null;
+  const bestPar = bestRun !== null ? (bestRun < 0 ? bestRun.toString() : bestRun === 0 ? 'E' : '+' + bestRun) : '\u2014';
+
+  animateCounter(document.getElementById('myStatsTotalGames'), totalGames);
+  animateCounter(document.getElementById('myStatsWins'), totalWins);
+  document.getElementById('myStatsWinRate').textContent = winRate + '%';
+  document.getElementById('myStatsAvgQuestions').textContent = avgQ;
+  document.getElementById('myStatsBestPar').textContent = bestPar;
+  document.getElementById('myStatsBestPar').style.color = bestRun !== null && bestRun < 0 ? '#4ade80' : bestRun !== null && bestRun > 0 ? '#f87171' : '';
+
+  // Runs table
+  const sorted = [...myGames].sort((a, b) => hexToNum(b.created_at) - hexToNum(a.created_at));
+  const runsHTML = sorted.slice(0, 50).map(g => {
+    const mode = hexToNum(g.game_mode);
+    const modeLabel = MODE_NAMES[mode] || '?';
+    const turns = hexToNum(g.turn_count);
+    const hasWin = g.winner && g.winner !== '0x0' && g.winner.toLowerCase() === me;
+    const hasWinner = g.winner && g.winner !== '0x0';
+    const isSolo = mode === 3 || mode === 4;
+    const parRel = isSolo && turns ? turns - PAR : null;
+    const parLabel = parRel !== null ? (parRel < 0 ? parRel.toString() : parRel === 0 ? 'E' : '+' + parRel) : '\u2014';
+    const parColor = parRel !== null ? (parRel < 0 ? '#4ade80' : parRel === 0 ? '#8a8f98' : '#f87171') : '';
+    const result = !hasWinner ? '<span class="pill pill-neutral">Active</span>' : hasWin ? '<span class="pill pill-green">Win</span>' : '<span class="pill" style="background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.3);color:#f87171;">Loss</span>';
+    const ts = hexToNum(g.created_at);
+    return '<div class="game-row"><span>' + shortHex6(g.game_id) + '</span><span class="pill pill-neutral">' + modeLabel + '</span><span>' + (turns || '\u2014') + '</span><span style="color:' + parColor + '">' + parLabel + '</span>' + result + '<span>' + (ts ? formatDate(ts) : '\u2014') + '</span></div>';
+  }).join('');
+  const header = '<div class="game-row game-row-header"><span>Game ID</span><span>Mode</span><span>Turns</span><span>Par</span><span>Result</span><span>Time</span></div>';
+  document.getElementById('myRunsTable').innerHTML = header + (runsHTML || '<div class="empty-state">No games found</div>');
+
+  // Efficiency
+  const underPar = soloWins.filter(g => hexToNum(g.turn_count) < PAR).length;
+  document.getElementById('effUnderPar').textContent = soloWins.length ? Math.round(underPar / soloWins.length * 100) + '%' : '\u2014';
+
+  let streak = 0;
+  for (const g of sorted) {
+    if (!g.winner || g.winner === '0x0') break;
+    if (g.winner.toLowerCase() === me) streak++; else break;
+  }
+  document.getElementById('effStreak').textContent = streak > 0 ? streak + 'W' : '0';
+
+  if (soloWins.length >= 4) {
+    const sortedWins = [...soloWins].sort((a, b) => hexToNum(b.created_at) - hexToNum(a.created_at));
+    const half = Math.floor(sortedWins.length / 2);
+    const recent = sortedWins.slice(0, half);
+    const older = sortedWins.slice(half);
+    const avgRecent = recent.reduce((s, g) => s + hexToNum(g.turn_count), 0) / recent.length;
+    const avgOlder = older.reduce((s, g) => s + hexToNum(g.turn_count), 0) / older.length;
+    const diff = (avgOlder - avgRecent).toFixed(1);
+    document.getElementById('effTrend').textContent = diff > 0 ? '\u2193 ' + diff + 'q faster' : diff < 0 ? '\u2191 ' + Math.abs(diff) + 'q slower' : '\u2192 Flat';
+    document.getElementById('effTrend').style.color = diff > 0 ? '#4ade80' : diff < 0 ? '#f87171' : '';
+  }
+
+  // Tournament status
+  const now = Math.floor(Date.now() / 1000);
+  const inTournament = now >= TOURNAMENT_START && now <= TOURNAMENT_END;
+  if (inTournament) {
+    const tGames = myGames.filter(g => {
+      const ts = hexToNum(g.created_at);
+      const mode = hexToNum(g.game_mode);
+      return (mode === 3 || mode === 4) && ts >= TOURNAMENT_START && ts <= TOURNAMENT_END && g.winner && g.winner !== '0x0' && g.winner.toLowerCase() === me;
+    });
+    const qual = tGames.length >= 5;
+    const best3 = tGames.sort((a,b) => hexToNum(a.turn_count) - hexToNum(b.turn_count)).slice(0,3);
+    const best3Score = best3.reduce((s, g) => s + (hexToNum(g.turn_count) - PAR), 0);
+    let html = '<div class="tournament-status-card">';
+    html += '<div class="ts-row"><span class="ts-label">Tournament Games Won</span><span class="ts-value">' + tGames.length + ' / 5 to qualify</span></div>';
+    html += '<div class="ts-row"><span class="ts-label">Qualified</span><span class="ts-value" style="color:' + (qual ? '#4ade80' : '#f87171') + '">' + (qual ? 'YES \u2713' : 'NO \u2014 ' + (5 - tGames.length) + ' more needed') + '</span></div>';
+    if (qual) {
+      html += '<div class="ts-row"><span class="ts-label">Best 3 Runs Score</span><span class="ts-value">' + (best3Score < 0 ? best3Score : '+' + best3Score) + '</span></div>';
+      best3.forEach((g, i) => {
+        const rel = hexToNum(g.turn_count) - PAR;
+        html += '<div class="ts-row"><span class="ts-label">Run #' + (i+1) + '</span><span class="ts-value">' + hexToNum(g.turn_count) + ' questions (' + (rel < 0 ? rel : rel === 0 ? 'E' : '+' + rel) + ')</span></div>';
+      });
+    }
+    html += '</div>';
+    document.getElementById('myTournamentStatus').innerHTML = html;
+  } else {
+    document.getElementById('myTournamentStatus').innerHTML = '<div class="empty-state">Tournament not active</div>';
+  }
 }
 
 // ─── MAIN DATA FETCH ─────────────────────────────────────
@@ -1374,6 +2111,9 @@ function renderDashboard(games, completed, collections, guesses, turns) {
 
   // Treasury projections
   renderTreasury(games);
+
+  // Tournament
+  renderTournament(games);
 }
 
 function renderTreasury(games) {
@@ -1400,7 +2140,7 @@ function gameRowHTML(g) {
   const phaseInfo  = PHASE_INFO[phase] || { label: 'Unknown', cls: 'pill-phase-lobby' };
   const mode       = hexToNum(g.game_mode);
   const modeLabel  = MODE_NAMES[mode] || '?';
-  const modeCls    = mode === 2 ? 'pill-indigo' : 'pill-neutral';
+  const modeCls    = (mode === 2) ? 'pill-indigo' : (mode === 3 || mode === 4) ? 'pill-green' : 'pill-neutral';
   const turns      = hexToNum(g.turn_count);
   const hasWinner  = g.winner && g.winner !== '0x0';
   const tsRaw      = hexToNum(g.created_at);
@@ -1428,8 +2168,10 @@ function renderGames(games) {
 
   // Apply mode filter
   let displayGames = games;
-  if (currentGameModeFilter === 'solo') {
-    displayGames = games.filter(g => hexToNum(g.game_mode) === 1);
+  if (currentGameModeFilter === 'soloOpen') {
+    displayGames = games.filter(g => hexToNum(g.game_mode) === 3);
+  } else if (currentGameModeFilter === 'soloOwned') {
+    displayGames = games.filter(g => hexToNum(g.game_mode) === 4);
   } else if (currentGameModeFilter === 'zk') {
     displayGames = games.filter(g => hexToNum(g.game_mode) === 2);
   }
@@ -1461,8 +2203,10 @@ function setGameModeFilter(mode) {
   // Update button states
   document.getElementById('filterAll').classList.toggle('pill-neutral', mode === 'all');
   document.getElementById('filterAll').classList.toggle('pill-indigo', mode !== 'all');
-  document.getElementById('filterSolo').classList.toggle('pill-neutral', mode !== 'solo');
-  document.getElementById('filterSolo').classList.toggle('pill-indigo', mode === 'solo');
+  document.getElementById('filterSoloOpen').classList.toggle('pill-neutral', mode !== 'soloOpen');
+  document.getElementById('filterSoloOpen').classList.toggle('pill-indigo', mode === 'soloOpen');
+  document.getElementById('filterSoloOwned').classList.toggle('pill-neutral', mode !== 'soloOwned');
+  document.getElementById('filterSoloOwned').classList.toggle('pill-indigo', mode === 'soloOwned');
   document.getElementById('filterZK').classList.toggle('pill-neutral', mode !== 'zk');
   document.getElementById('filterZK').classList.toggle('pill-indigo', mode === 'zk');
   // Re-render with current data
@@ -1513,12 +2257,14 @@ function renderLeaderboard(games) {
       if (is7d) playerStats[p1].games7d++;
       if (mode === 1) { playerStats[p1].solo.games++; }
       if (mode === 2) { playerStats[p1].zk.games++; }
+      if (mode === 3 || mode === 4) { playerStats[p1].solo.games++; }
     }
     if (p2 && p2 !== '0x0') {
       playerStats[p2].games++;
       if (is7d) playerStats[p2].games7d++;
       if (mode === 1) { playerStats[p2].solo.games++; }
       if (mode === 2) { playerStats[p2].zk.games++; }
+      if (mode === 3 || mode === 4) { playerStats[p2].solo.games++; }
     }
 
     // Winner update + streak tracking
@@ -1527,6 +2273,7 @@ function renderLeaderboard(games) {
       if (is7d) playerStats[winner].wins7d++;
       if (mode === 1) { playerStats[winner].solo.wins++; }
       if (mode === 2) { playerStats[winner].zk.wins++; }
+      if (mode === 3 || mode === 4) { playerStats[winner].solo.wins++; }
       // Streak: consecutive wins in reverse-chronological order
       // We compute after loop — store lastResult for now
     }
@@ -1796,6 +2543,164 @@ function closeZkExpand(event) {
   document.body.style.overflow = '';
 }
 
+// ─── TOURNAMENT ───────────────────────────────────────────
+const TOURNAMENT_START = 1746628800; // May 7 2026 12:00 UTC
+const TOURNAMENT_END   = 1747233600; // May 14 2026 12:00 UTC
+
+// Schizodio collection par = ceil(log2(999)) = 10
+// Future: per-collection par lookup when Bloberts/Ducks launch
+function getPar(nftId) {
+  return 10;
+}
+
+function formatParRelative(score) {
+  const diff = score - 10; // par = 10 placeholder
+  if (diff < 0) return `−${Math.abs(diff)}`;
+  if (diff === 0) return 'E';
+  return `+${diff}`;
+}
+
+function parRelativeClass(score) {
+  const diff = score - 10;
+  if (diff < 0) return 'negative';
+  if (diff === 0) return 'even';
+  return 'positive';
+}
+
+function updateCountdown() {
+  const now = Math.floor(Date.now() / 1000);
+  const el = document.getElementById('tournamentCountdown');
+  if (!el) return;
+
+  if (now < TOURNAMENT_START) {
+    const diff = TOURNAMENT_START - now;
+    const d = Math.floor(diff / 86400);
+    const h = Math.floor((diff % 86400) / 3600);
+    const m = Math.floor((diff % 3600) / 60);
+    const s = diff % 60;
+    el.innerHTML = `Starts in ${d}<span>d</span> ${String(h).padStart(2,'0')}<span>h</span> ${String(m).padStart(2,'0')}<span>m</span> ${String(s).padStart(2,'0')}<span>s</span>`;
+  } else if (now < TOURNAMENT_END) {
+    const diff = TOURNAMENT_END - now;
+    const d = Math.floor(diff / 86400);
+    const h = Math.floor((diff % 86400) / 3600);
+    const m = Math.floor((diff % 3600) / 60);
+    const s = diff % 60;
+    el.innerHTML = `Ends in ${d}<span>d</span> ${String(h).padStart(2,'0')}<span>h</span> ${String(m).padStart(2,'0')}<span>m</span> ${String(s).padStart(2,'0')}<span>s</span>`;
+  } else {
+    el.innerHTML = 'Tournament ended';
+  }
+}
+
+function isTournamentGame(g) {
+  const ts = hexToNum(g.created_at);
+  const mode = hexToNum(g.game_mode);
+  return (mode === 3 || mode === 4) && ts >= TOURNAMENT_START && ts <= TOURNAMENT_END;
+}
+
+function isCompletedWin(g) {
+  return g.winner && g.winner !== '0x0' && g.winner === g.player1;
+}
+
+function renderTournament(games) {
+  const soloGames = games.filter(isTournamentGame);
+  const openGames = soloGames.filter(g => hexToNum(g.game_mode) === 3).filter(isCompletedWin);
+  const ownedGames = soloGames.filter(g => hexToNum(g.game_mode) === 4).filter(isCompletedWin);
+
+  // Aggregate stats
+  const allCompleted = [...openGames, ...ownedGames];
+  const players = new Set();
+  let totalQuestions = 0;
+  allCompleted.forEach(g => {
+    players.add(g.player1);
+    totalQuestions += hexToNum(g.turn_count);
+  });
+
+  animateCounter(document.getElementById('tournamentGames'), allCompleted.length);
+  animateCounter(document.getElementById('tournamentPlayers'), players.size);
+  const avgScore = allCompleted.length > 0 ? (totalQuestions / allCompleted.length).toFixed(1) : '—';
+  document.getElementById('tournamentAvgScore').textContent = avgScore;
+
+  // Build rankings per mode
+  const openRankings = buildTournamentRankings(openGames);
+  const ownedRankings = buildTournamentRankings(ownedGames);
+
+  renderTournamentBoard(document.getElementById('tournamentOpenBoard'), openRankings);
+  renderTournamentBoard(document.getElementById('tournamentOwnedBoard'), ownedRankings);
+}
+
+function buildTournamentRankings(games) {
+  const playerData = {};
+
+  games.forEach(g => {
+    const player = g.player1;
+    const questions = hexToNum(g.turn_count);
+    const par = 10; // Schizodio collection par = ceil(log2(999)) = 10
+    const relative = questions - par;
+
+    if (!playerData[player]) {
+      playerData[player] = {
+        address: player,
+        games: [],
+        totalQuestions: 0
+      };
+    }
+    playerData[player].games.push({ questions, par, relative });
+    playerData[player].totalQuestions += questions;
+  });
+
+  const rankings = Object.values(playerData).map(p => {
+    const sorted = [...p.games].sort((a, b) => a.relative - b.relative);
+    const best3 = sorted.slice(0, 3);
+    const score = best3.reduce((sum, g) => sum + g.relative, 0);
+    const gamesPlayed = p.games.length;
+    const qualified = gamesPlayed >= 5;
+    return {
+      address: p.address,
+      score,
+      gamesPlayed,
+      totalQuestions: p.totalQuestions,
+      qualified,
+      bestRaw: best3.map(g => g.questions)
+    };
+  });
+
+  rankings.sort((a, b) => {
+    if (a.qualified !== b.qualified) return b.qualified - a.qualified;
+    if (a.score !== b.score) return a.score - b.score;
+    return a.totalQuestions - b.totalQuestions;
+  });
+
+  return rankings;
+}
+
+function renderTournamentBoard(container, rankings) {
+  const display = rankings.slice(0, 15);
+
+  if (display.length === 0) {
+    container.innerHTML = '<div class="empty-state">No completed games yet</div>';
+    return;
+  }
+
+  container.innerHTML = display.map((r, i) => {
+    const rank = i + 1;
+    const rankClass = rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : '';
+    const scoreText = formatParRelative(r.score + 10);
+    const scoreClass = parRelativeClass(r.score + 10);
+    const qualifyBadge = !r.qualified
+      ? `<span class="tournament-player-note">· ${r.gamesPlayed}/5 games</span>`
+      : `<span class="tournament-player-note">· ${r.gamesPlayed} games</span>`;
+
+    return `<div class="tournament-leaderboard-item">
+      <span class="tournament-rank ${rankClass}">#${rank}</span>
+      <div class="tournament-player">
+        ${shortAddr(r.address)}
+        ${qualifyBadge}
+      </div>
+      <div class="tournament-score ${scoreClass}">${scoreText}</div>
+    </div>`;
+  }).join('');
+}
+
 // ─── CSV EXPORT ───────────────────────────────────────────
 function exportGamesCSV() {
   if (!allGames || allGames.length === 0) { alert('No games data to export.'); return; }
@@ -1856,6 +2761,8 @@ document.addEventListener('keydown', function(e) {
 setGameModeFilter('all');  // initial button state
 fetchData();
 setInterval(fetchData, REFRESH_INTERVAL);
+setInterval(updateCountdown, 1000);
+updateCountdown();
 </script>
 
 </body>
